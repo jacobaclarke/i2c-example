@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "author": "Minimal Example",
+    "editor": "wokwi",
+    "parts": [
+      {
+        "type": "board-esp32-devkit-c-v4",
+        "id": "esp",
+        "top": 0,
+        "left": 0,
+        "attrs": { "flashSize": "16" }
+      }
+    ],
+    "connections": [
+      ["esp:TX", "$serialMonitor:RX", "", []],
+      ["esp:RX", "$serialMonitor:TX", "", []],
+      ["esp:21", "esp:18", "green", ["h-40", "v-40"]],
+      ["esp:22", "esp:19", "yellow", ["h40", "v40"]]
+    ],
+    "serialMonitor": { "display": "terminal", "convertEol": true },
+    "dependencies": {}
+  }
