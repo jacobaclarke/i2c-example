@@ -1,3 +1,4 @@
+use esp_idf_svc::hal::prelude::*;
 use esp_idf_hal::{
     delay::BLOCK,
     i2c::{I2cConfig, I2cDriver, I2cSlaveConfig, I2cSlaveDriver},
@@ -29,7 +30,7 @@ fn main() {
         scl_slave,
         SLAVE_ADDR,
         &slave_config,
-    )?;
+    ).unwrap();
 
     // Initialize I2C master (I2C0)
     let master_config = I2cConfig::new().baudrate(100.kHz().into());
@@ -38,25 +39,25 @@ fn main() {
         sda_master,
         scl_master,
         &master_config,
-    )?;
+    ).unwrap();
 
     // Test data
     let tx_buf: [u8; 8] = [0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef];
 
     // Master write test
     println!("Master write test");
-    i2c_master.write(SLAVE_ADDR, &tx_buf, BLOCK)?;
+    i2c_master.write(SLAVE_ADDR, &tx_buf, BLOCK).unwrap();
     let mut rx_buf: [u8; 8] = [0; 8];
     println!("Slave read test");
-    i2c_slave.read(&mut rx_buf, BLOCK)?;
+    i2c_slave.read(&mut rx_buf, BLOCK).unwrap();
     println!("Master write test: {:?} -> {:?}", tx_buf, rx_buf);
 
     // Master read test
     println!("Slave write test");
-    i2c_slave.write(&tx_buf, BLOCK)?;
+    i2c_slave.write(&tx_buf, BLOCK).unwrap();
     let mut rx_buf: [u8; 8] = [0; 8];
     println!("Master read test");
-    i2c_master.read(SLAVE_ADDR, &mut rx_buf, BLOCK)?;
+    i2c_master.read(SLAVE_ADDR, &mut rx_buf, BLOCK).unwrap();
     println!("Master read test: {:?} -> {:?}", tx_buf, rx_buf);
 
 } 
